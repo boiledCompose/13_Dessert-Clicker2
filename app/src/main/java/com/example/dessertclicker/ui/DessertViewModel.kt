@@ -23,7 +23,7 @@ class DessertViewModel: ViewModel() {
         _uiState.value = DessertUiState(0, 0, 0, desserts[0].price, desserts[0].imageId)
     }
 
-    private fun determineDessertToShow(): Dessert {
+    private fun determineDessertToShow() {
         var dessertToShow = desserts.first()
         for (dessert in desserts) {
             if (uiState.value.dessertsSold >= dessert.startProductionAmount) {
@@ -32,12 +32,17 @@ class DessertViewModel: ViewModel() {
                 break
             }
         }
-        return dessertToShow
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentDessertImageId = dessertToShow.imageId
+            )
+        }
     }
 
-    fun onDessertClicked(): Dessert {
+    fun onDessertClicked() {
         updateRevenueAndDessertsSold()
-        return determineDessertToShow()
+        determineDessertToShow()
     }
 
     private fun updateRevenueAndDessertsSold() {
