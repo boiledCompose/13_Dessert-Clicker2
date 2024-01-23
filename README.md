@@ -46,5 +46,29 @@ private val _uiState = MutableStateFlow(GameUiState())
 val uiState = _uiState.asStateFlow()
 ```
 
+## ViewModel 클래스와 매개변수
+
+Android Studio는 기본적으로 매개변수를 허용하지 않는다. 허나 `ViewModelFactory`를 사용하여 특정 뷰모델이 인수를 받도록 설정할 수 있다.
+
+다음 코드는 추후에 배울 저장소를 뷰모델 객체의 인수로 전달하는 예제다.
+
+`Factory` 객체를 만든다. 이 코드는 `ViewModel` 클래스 내 `companion object`에 작성되었다.
+```kotlin
+companion object {
+   val Factory: ViewModelProvider.Factory = viewModelFactory {
+      initializer {
+         val application = (this[APPLICATION_KEY] as MarsPhotosApplication)
+         val marsPhotosRepository = application.container.marsPhotosRepository
+         MarsViewModel(marsPhotosRepository = marsPhotosRepository)
+      }
+   }
+}
+```
+
+만들어 놓은 `Factory`객체를 `ViewModel` 객체에 적용한다.
+```kotlin
+val marsViewModel: MarsViewModel = viewModel(factory = MarsViewModel.Factory)
+```
+
 
 
