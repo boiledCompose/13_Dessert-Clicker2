@@ -35,7 +35,16 @@ data class MyUiState( ... )
 
 ### 4. UI 모델 변수 생성
 
-`StateFlow`
+`StateFlow`는 현재 상태와 새로운 상태 업데이트를 내보내는 관찰 가능한 데이터 홀더 흐름이다.
+
+`MutableStateFlow` 클래스를 사용해 객체를 생성한다. 이 객체를 읽기 전용으로 선언하려면 `asStateFlow()`메서드를 사용한다.
+
+`StateFlow`객체의 값에 접근하려면 `.value`를 사용한다.
+
+```kotlin
+private val _uiState = MutableStateFlow(GameUiState())
+val uiState = _uiState.asStateFlow()
+```
 
 
 
